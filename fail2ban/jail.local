@@ -10,6 +10,6 @@ enabled = true
 #         %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 banaction = firewallcmd-ipset-subnet
 logpath = /var/log/fail2ban-subnet.log
-bantime = 26week
+bantime = 1week
 findtime= 1day
 maxretry= 1 ; once we have a line, we ban
