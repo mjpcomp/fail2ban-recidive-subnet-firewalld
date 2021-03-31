@@ -1,6 +1,8 @@
-# fail2ban-recidive-subnet
+# fail2ban-recidive-subnet-firewalld
 
 Find and ban recidive subnets using fail2ban.
+
+_This project was forked and modified by mjpcomp on 2021-03-30 from the original - this modification allows for using **firewalld**, along with **ipset** net:hash containers, to perform the blocking (if you're using **Virtualmin**, this will make sense). Currently, the code this was forked from was only designed to pull /24 networks, so, it remains as is._
 
 ## Problem
 
