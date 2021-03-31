@@ -6,8 +6,9 @@
 enabled = true
 # ban & send an e-mail with whois report and relevant log lines
 # to the destemail.
-action = iptables-subnet[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-         %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+#action = iptables-subnet[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+#         %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+banaction = firewallcmd-ipset-subnet
 logpath = /var/log/fail2ban-subnet.log
 bantime = 26week
 findtime= 1day
