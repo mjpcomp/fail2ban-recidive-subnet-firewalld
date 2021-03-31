@@ -28,7 +28,7 @@ outputfile=/var/log/fail2ban-subnet.log
 
 # path to awk script
 # Where did you store the awk script?
-awkscript=/opt/fail2ban-subnet/fail2ban-subnet.awk
+awkscript=/usr/local/include/fail2ban-subnet/fail2ban-subnet.awk
 
 # --------------------
 # Configuration end!
