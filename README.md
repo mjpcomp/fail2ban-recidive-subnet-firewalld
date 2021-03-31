@@ -26,15 +26,15 @@ Now fail2ban itself has a jail and filter configuration to watch this log file a
 
 ## Installation
 
-- Copy the scripts `fail2ban-subnet.awk` and `fail2ban-subnet-starter.sh` to a location of your choice
+- Copy the scripts `fail2ban-subnet.awk` and `fail2ban-subnet-starter.sh` to a location of your choice (edit the sh file to make sure the path to the awk is correct)
 - Ensure the `fail2ban-subnet-starter.sh` is executable (`chmod +x ...`)
-- Copy `iptables-subnet.local` to `/etc/fail2ban/action.d/`
+- Copy `firewallcmd-ipset-subnet.local` to `/etc/fail2ban/action.d/`
 - Copy `recidive-subnet.local` to `/etc/fail2ban/filter.d`
-- Add filter definition in `jail.local` to your `/etc/fail2ban/jail.local` (at the very end)
+- Add the filter definition in `jail.local` to your `/etc/fail2ban/jail.local` (at the very end)
 - Configure settings in `fail2ban-subnet-starter.sh`
 - Configure settings in `/etc/fail2ban/jail.local` (esp. bantime)
+- Call your `fail2ban-subnet-starter.sh` (for the first and the last time by hand - if you don't, and don't have the fail2ban-subnet file yet, the fail2ban service will fail to start)
 - Restart fail2ban (depends on your unix distro)
-- Call your `fail2ban-subnet-starter.sh` (for the first and the last time by hand)
 - Add `fail2ban-subnet-starter.sh` to your cron to be started regularly (e.g. every hour)
 
 ## Configuration
@@ -69,7 +69,7 @@ Now fail2ban itself has a jail and filter configuration to watch this log file a
 - `awkscript`
   - File path and name where you stored the awk script `fail2ban-subnet.awk`
   - My setting:
-    - `awkscript=/opt/fail2ban-subnet/fail2ban-subnet.awk`
+    - `awkscript=/usr/local/include/fail2ban-subnet/fail2ban-subnet.awk`
 
 ### `jail.local`
 
@@ -83,22 +83,17 @@ Then you can adapt the configuration to your needs.
   - This enables or disables the jail
   - My setting:
     - `enabled = true`
-- `action`
-  - The action to start, if fail2ban found a recidive subnet
-  - This is a copy of the default action `action_mwl` which bans and sends a mail with whois information, but I changed the `%(banaction)s` to `iptables-subnet` which is my own defined action for banning /24 subnets
-  - My setting:
-    - `action = iptables-subnet[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"`
-    - `%(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]`
 - `logpath`
   - The path to the file which the filter should parse
   - This is the file, which is written by the scripts above
+  - Remember, this file must exist if you enable this jail, or, fail2ban will not start due to the missing logfile
   - My setting:
     - `logpath = /var/log/fail2ban-subnet.log`
 - `bantime`
   - Time period how long the subnet should be banned
-  - As I'm really bored by those attackers, I give them half a year!
+  - IPSet has a limit (at least on Ubuntu 20.04) of just over 24 days
   - My setting:
-    - `bantime = 26week`
+    - `bantime = 1week`
 - `findtime`
   - A subnet is banned if it has generated `maxretry` logs during the last `findtime` seconds.
   - A change only makes sense, if you change the `maxretry` to something other than `1`
