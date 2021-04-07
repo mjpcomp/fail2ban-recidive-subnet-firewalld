@@ -21,10 +21,12 @@ before = firewallcmd-common.conf
 
 actionstart = ipset create <ipmset> hash:net timeout <default-timeout><familyopt>
               firewall-cmd --direct --add-rule <family> filter <chain> 0 <actiontype> -m set --match-set <ipmset> src -j <blocktype>
+              firewall-cmd --permanent --direct --add-rule <family> filter <chain> 0 <actiontype> -m set --match-set <ipmset> src -j <blocktype>
 
 actionflush = ipset flush <ipmset>
 
 actionstop = firewall-cmd --direct --remove-rule <family> filter <chain> 0 <actiontype> -m set --match-set <ipmset> src -j <blocktype>
+             firewall-cmd --permanent --direct --remove-rule <family> filter <chain> 0 <actiontype> -m set --match-set <ipmset> src -j <blocktype>
              <actionflush>
              ipset destroy <ipmset>
 
